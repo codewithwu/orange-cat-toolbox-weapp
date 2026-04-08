@@ -22,3 +22,53 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# =========================
+# 微信小程序相关
+# =========================
+
+# 微信开发者工具缓存
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*~
+
+# 微信小程序编译产物
+/dist/
+
+# 本地配置文件（包含 appid 等敏感信息）
+/miniprogram/config.*
+/miniprogram/.env*
+/weapp/.env*
+
+# 微信开发者工具私有配置（包含 appid 等）
+project.private.config.json
+project.config.json
+
+# node_modules 依赖
+node_modules/
+
+# npm/yarn 日志
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+
+# 微信开发者工具日志
+/traces/
+//crash/
+
+# 百度小程序 / 支付宝小程序 等其他小程序平台
+# 如果项目涉及多端开发，可能需要
+# /aliapp/
+# /bdapp/
+
+# 微信开发者工具的 AppData（包含用户私有配置）
+# 取消注释如果需要完全隔离
+# .禾*号/

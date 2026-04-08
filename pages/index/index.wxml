@@ -1,0 +1,108 @@
+<view class="page-container">
+  <!-- 预览区域 -->
+  <view class="preview-section">
+    <view class="section-title">预览</view>
+    <view class="preview-wrapper">
+      <view class="preview-card" style="{{currentTemplateStyle}}">
+        <text class="preview-text" style="{{currentTextStyle}}">{{text || '在这里输入你的文字...'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 编辑区域 -->
+  <view class="edit-section card">
+    <view class="edit-header">
+      <text class="edit-label">文字内容</text>
+      <text class="char-count">{{text.length}}/200</text>
+    </view>
+    <textarea
+      class="text-input"
+      placeholder="在这里输入你的文字..."
+      placeholder-class="placeholder"
+      maxlength="200"
+      bindinput="handleTextInput"
+      value="{{text}}"
+    ></textarea>
+    <view class="action-btns">
+      <view class="action-btn action-btn-clear" bindtap="handleClear" hover-class="hover">
+        <text>清空</text>
+      </view>
+      <view class="action-btn action-btn-paste" bindtap="handlePaste" hover-class="hover">
+        <text>粘贴</text>
+      </view>
+      <view class="action-btn action-btn-copy" bindtap="handleCopy" hover-class="hover">
+        <text>复制</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 模板选择 -->
+  <view class="template-section card">
+    <view class="section-title">选择模板</view>
+    <scroll-view class="template-list" scroll-x enable-flex>
+      <view
+        wx:for="{{templates}}"
+        wx:key="id"
+        class="template-item {{currentTemplateId === item.id ? 'active' : ''}}"
+        bindtap="handleTemplateSelect"
+        data-id="{{item.id}}"
+        hover-class="hover"
+      >
+        <view class="template-preview" style="{{item.previewStyle}}">
+          <text class="template-text" style="{{item.previewTextStyle}}">文</text>
+        </view>
+        <text class="template-name">{{item.name}}</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 历史记录入口 -->
+  <view class="history-section" bindtap="handleShowHistory" hover-class="hover">
+    <text class="history-icon">🕐</text>
+    <text class="history-text">历史记录</text>
+    <text class="history-count" wx:if="{{historyCount > 0}}">{{historyCount}}条</text>
+    <text class="history-tip">仅保留最近20条</text>
+  </view>
+
+  <!-- 底部安全区 -->
+  <view class="bottom-safe-area">
+    <view class="save-btn custom-btn" bindtap="handleSave" hover-class="hover">
+      <text wx:if="{{!saving}}">保存到相册</text>
+      <text wx:else>保存中...</text>
+    </view>
+  </view>
+</view>
+
+<!-- Canvas 用于生成图片 -->
+<canvas canvas-id="cardCanvas" class="card-canvas"></canvas>
+
+<!-- 历史记录弹窗 -->
+<view class="modal-overlay {{showHistory ? 'show' : ''}}" bindtap="handleCloseHistory">
+  <view class="modal-content" catchtap="stopBubble">
+    <view class="modal-header">
+      <text class="modal-title">历史记录</text>
+      <view class="modal-close" bindtap="handleCloseHistory" hover-class="hover">✕</view>
+    </view>
+    <scroll-view class="history-list" scroll-y>
+      <view wx:if="{{historyList.length === 0}}" class="empty-history">
+        <text>暂无历史记录</text>
+      </view>
+      <view
+        wx:for="{{historyList}}"
+        wx:key="id"
+        class="history-item"
+        bindtap="handleHistorySelect"
+        data-index="{{index}}"
+        hover-class="hover"
+      >
+        <view class="history-item-content" style="{{item.previewStyle}}">
+          <text class="history-item-text" style="{{item.textStyle}}">{{item.text}}</text>
+        </view>
+        <view class="history-item-info">
+          <text class="history-item-template">{{item.templateName}}</text>
+          <text class="history-item-date">{{item.date}}</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
