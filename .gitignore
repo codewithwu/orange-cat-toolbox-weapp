@@ -49,6 +49,9 @@ replay_pid*
 project.private.config.json
 project.config.json
 
+# 需求文档目录
+Requirements Document/
+
 # node_modules 依赖
 node_modules/
 
